@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from Rangmanch.database import create_table
-from Rangmanch.routes.reviews import router as review_router
+from database import create_table
+from routes.reviews import router as review_router
 
 
 @asynccontextmanager

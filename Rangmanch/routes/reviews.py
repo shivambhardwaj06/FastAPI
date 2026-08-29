@@ -1,7 +1,7 @@
 from sqlmodel import Session, select , func
-from Project_3.models import Review, ReviewCreate , ReviewRead, ReviewUpdate
-from fastapi import APIRouter , Depends, Query
-from Project_3.database import get_session
+from models import Review, ReviewCreate , ReviewRead, ReviewUpdate
+from fastapi import APIRouter , Depends, Query , Path
+from database import get_session
 
 router = APIRouter(prefix="/review",tags=["reviews"])
 
@@ -14,7 +14,7 @@ def create_review(review:ReviewCreate, session : Session = Depends(get_session))
     return db_review
 
 # pagination with skip and limit
-@router.get("/reviews",response_model=list[ReviewRead])
+@router.get("/list/",response_model=list[ReviewRead])
 def List_review(
     play_name:str | None = Query(None, description="Filter by play name"),
     skip:int = Query(0, ge=0, description="Number of records to skip"),
@@ -29,7 +29,7 @@ def List_review(
     return reviews
 
 # average rating for a specific play
-@router.get("/reviews/average",response_model=float)
+@router.get("/average")
 def average_rating(play_name:str = Query(..., description="Play name to calculate average rating"), session: Session = Depends(get_session)):
     query = select(func.avg(Review.rating), func.count(Review.id)).where(Review.play_name == play_name)
     result = session.exec(query).first()
@@ -38,14 +38,14 @@ def average_rating(play_name:str = Query(..., description="Play name to calculat
         raise ValueError(f"No reviews found for play: {play_name}")
     return {
         "play_name" : play_name,
-        "average_rating" : average_rating,
+        "average_rating" : avg_rating,
         "total_reviews" : total_reviews
     }
 
 
 #get reviews by id
 @router.get("/{review_id}", response_model = ReviewRead)
-def reviewbyid(review_id:int =Query(..., description="Review ID to fetch"), session: Session = Depends(get_session)):
+def reviewbyid(review_id:int =Path(..., description="Review ID to fetch"), session: Session = Depends(get_session)):
     review = session.get(Review, review_id)
     if not review:
         raise ValueError(f"Review with ID {review_id} not found")

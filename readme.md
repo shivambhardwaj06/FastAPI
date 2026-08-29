@@ -5,6 +5,8 @@
 [![Pydantic v2](https://img.shields.io/badge/Pydantic-v2-E92063.svg?logo=pydantic&logoColor=white)](https://docs.pydantic.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+##Notes and Documentation : https://app.notion.com/p/FastAPI-3c93bb8cfe5380bcbc8dd19f2ea973e7?source=copy_link
+
 > **Moving beyond generic CRUD apps.** This repository houses practical architectures, patterns, and production-grade implementations for serving **Machine Learning inference, GenAI pipelines, and autonomous AI agents** using FastAPI.
 
 ---
